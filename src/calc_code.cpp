@@ -21,26 +21,34 @@ File_type check_file(string filename)
 
 void recursive_calc(Folder_Node& now)
 {
-    get_filename(now.son_file);
-    get_foldername(now.son_folder);
-
-    for (string file: now.son_file)
+    if (!get_filename(now.son_file))
+        cerr << "\'" << now.name << "\'" << endl;
+    else
     {
-        File_type t_type = check_file(file);
-        if (t_type == other) continue;
-        now.file_sum[t_type]++;
-        count_attr(&now, file.c_str(), t_type);
-    }
-    for (Folder_Node* folder: now.son_folder)
-    {
-        if (CD(folder->name.c_str()) != 0) 
+        for (string file: now.son_file)
         {
-            cerr << "Warning: Cannot access directory \'" << folder->name << "\'" << endl;
-            continue;
+            File_type t_type = check_file(file);
+            if (t_type == other) continue;
+            now.file_sum[t_type]++;
+            count_attr(&now, file.c_str(), t_type);
         }
-        recursive_calc(*folder);
-        now.pushup();
-        CD("..");
+    }
+    
+    if (!get_foldername(now.son_folder))
+        cerr << "\'" << now.name << "\'" << endl;
+    else
+    {
+        for (Folder_Node* folder: now.son_folder)
+        {
+            if (CD(folder->name.c_str()) != 0) 
+            {
+                cerr << "Warning: Cannot access directory \'" << folder->name << "\'" << endl;
+                continue;
+            }
+            recursive_calc(*folder);
+            now.pushup();
+            CD("..");
+        }
     }
 }
 

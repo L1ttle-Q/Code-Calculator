@@ -25,6 +25,7 @@ struct File_attr
         line += b.line;
         comment += b.comment;
         blank += b.blank;
+        return *this;
     }
 };
 

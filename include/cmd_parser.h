@@ -13,7 +13,7 @@
     #define Pclose(pfile) pclose(pfile)
 #endif
 
-void get_filename(vector<string>&);
-void get_foldername(vector<Folder_Node*>&);
+bool get_filename(vector<string>&);
+bool get_foldername(vector<Folder_Node*>&);
 
 #endif /* CMD_PARSER_H_ */

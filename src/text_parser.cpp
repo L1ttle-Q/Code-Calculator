@@ -7,8 +7,8 @@ bool get_line(string& res, FILE* in)
 {
     if (!in) return false;
     res.clear();
-    u_char c;
-    while (fread(&c, sizeof(u_char), 1, in))
+    unsigned char c;
+    while (fread(&c, sizeof(unsigned char), 1, in))
     {
         if (c == '\n')
             return true;
@@ -33,7 +33,7 @@ void count_attr(Folder_Node* now, const char* filename, File_type type)
     FILE* file = fopen(filename, "rb");
     if (!file)
     {
-        cerr << "Fail to open file " << filename << endl;
+        cerr << "Fail to open file \'" << filename << "\'" << endl;
         return ;
     }
     
