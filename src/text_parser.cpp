@@ -3,12 +3,36 @@
 
 using namespace std;
 
+static const int BUF_SIZE = 10005;
+static char buffer[BUF_SIZE], *p1, *p2;
+
+FILE* Fopen(const char* filename, const char* mode)
+{
+    p1 = p2 = buffer;
+    return fopen(filename, mode);
+}
+void Fclose(FILE* file)
+{
+    p1 = p2 = buffer;
+    fclose(file);
+}
+
+char getNextChar(FILE* in)
+{
+    if (p1 == p2)
+    {
+        p2 = (p1 = buffer) + fread(buffer, 1, BUF_SIZE, in);
+        if (p1 == p2) return EOF;
+    }
+    return *p1++;
+}
+
 bool get_line(string& res, FILE* in)
 {
     if (!in) return false;
     res.clear();
-    unsigned char c;
-    while (fread(&c, sizeof(unsigned char), 1, in))
+    char c;
+    while (~(c = getNextChar(in)))
     {
         if (c == '\n')
             return true;
@@ -30,7 +54,7 @@ bool is_empty_str(string& str)
 
 void count_attr(Folder_Node* now, const char* filename, File_type type)
 {
-    FILE* file = fopen(filename, "rb");
+    FILE* file = Fopen(filename, "rb");
     if (!file)
     {
         cerr << "Fail to open file \'" << filename << "\'" << endl;
@@ -56,6 +80,6 @@ void count_attr(Folder_Node* now, const char* filename, File_type type)
         */
     }
     
-    fclose(file);
+    Fclose(file);
     now->file_attr[type] += file_attr;
 }

@@ -46,22 +46,22 @@ void recursive_calc(Folder_Node& now)
                 continue;
             }
             recursive_calc(*folder);
-            now.pushup();
             CD("..");
         }
     }
+    now.pushup();
 }
 
 void print_attr(Folder_Node* now)
 {
-    printf("File type\t|line\t|blank\t|comment\t|file\n");
+    printf("File type\t|      line|     blank|   comment|      file\n");
     for (int i = 0; i < FILE_TYPE_NUM; i++)
     {
         int t_line = now->file_attr[i].line,
             t_blank = now->file_attr[i].blank,
             t_comment = now->file_attr[i].comment,
             t_file_sum = now->file_sum[i];
-        printf("%s\t\t|%d\t|%d\t|%d\t\t|%d\n", File_extensions[i].c_str(),
+        printf("%s\t\t|%10d|%10d|%10d|%10d\n", File_extensions[i].c_str(),
                                              t_line - t_blank,
                                              t_blank,
                                              t_comment,
