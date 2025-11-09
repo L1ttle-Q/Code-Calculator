@@ -54,17 +54,30 @@ void recursive_calc(Folder_Node& now)
 
 void print_attr(Folder_Node* now)
 {
-    printf("File type\t|      line|     blank|   comment|      file\n");
+    printf("File type\t|      line|     blank|   comment|      file| func_line|  func_cnt\n");
     for (int i = 0; i < FILE_TYPE_NUM; i++)
     {
         int t_line = now->file_attr[i].line,
             t_blank = now->file_attr[i].blank,
             t_comment = now->file_attr[i].comment,
-            t_file_sum = now->file_sum[i];
-        printf("%s\t\t|%10d|%10d|%10d|%10d\n", File_extensions[i].c_str(),
-                                             t_line - t_blank,
-                                             t_blank,
-                                             t_comment,
-                                             t_file_sum);
+            t_file_sum = now->file_sum[i],
+            t_func_line = now->file_attr[i].function_line(),
+            t_func_cnt = now->file_attr[i].function_cnt(),
+            t_func_avg = now->file_attr[i].function_avg(),
+            t_func_max = now->file_attr[i].function_max(),
+            t_func_min = now->file_attr[i].function_min(),
+            t_func_middle = now->file_attr[i].function_middle();
+        printf("%s\t\t|%10d|%10d|%10d|%10d|%10d|%10d|(%d, %d, %d, %d)\n",
+                                            File_extensions[i].c_str(),
+                                            t_line - t_blank,
+                                            t_blank,
+                                            t_comment,
+                                            t_file_sum,
+                                            t_func_line,
+                                            t_func_cnt,
+                                            t_func_avg,
+                                            t_func_max,
+                                            t_func_min,
+                                            t_func_middle);
     }
 }
