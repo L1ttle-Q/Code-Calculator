@@ -2,6 +2,7 @@
 .vscode/
 make/
 build/
+test/
 *.png
 *.jpg
 

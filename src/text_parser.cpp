@@ -168,14 +168,12 @@ void count_attr(Folder_Node* now, const char* filename, File_type type)
             if (getDepth(line) <= func_dep)
             {
                 file_attr.m_function.emplace_back(func_cnt);
-                if (func_cnt == 618) fprintf(stderr, "%s\n", filename);
                 in_func = false; func_dep = 0; func_cnt = 0;
             }
             else func_cnt++;
         }
     }
     if (in_func) file_attr.m_function.emplace_back(func_cnt);
-    if (func_cnt == 618) fprintf(stderr, "%s\n", filename);
 
     Fclose(file);
     now->file_attr[type] += file_attr;

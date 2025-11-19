@@ -15,6 +15,9 @@ typedef enum
 const string File_extensions[FILE_TYPE_NUM] = {
     ".cpp", ".c", ".h", ".java", ".py"
 };
+const string File_type_str[FILE_TYPE_NUM] = {
+    "cpp", "c", "h", "java", "python"
+};
 
 struct File_attr
 {

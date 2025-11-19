@@ -52,11 +52,16 @@ void recursive_calc(Folder_Node& now)
     now.pushup();
 }
 
-void print_attr(Folder_Node* now)
+void print_attr(Folder_Node* now, bool Structured = false)
 {
-    printf("File type\t|      line|     blank|   comment|      file| func_line|  func_cnt\n");
+    if (!Structured)
+        printf("File type\t|      line|     blank|   comment|      file| func_line|  func_cnt\n");
+    else
+        printf("{\n");
     for (int i = 0; i < FILE_TYPE_NUM; i++)
     {
+        if (Structured)
+            printf("  \"%s\": {\n", File_type_str[i].c_str());
         int t_line = now->file_attr[i].line,
             t_blank = now->file_attr[i].blank,
             t_comment = now->file_attr[i].comment,
@@ -67,7 +72,9 @@ void print_attr(Folder_Node* now)
             t_func_max = now->file_attr[i].function_max(),
             t_func_min = now->file_attr[i].function_min(),
             t_func_middle = now->file_attr[i].function_middle();
-        printf("%s\t\t|%10d|%10d|%10d|%10d|%10d|%10d|(%d, %d, %d, %d)\n",
+        if (!Structured)
+        {
+            printf("%s\t\t|%10d|%10d|%10d|%10d|%10d|%10d|(%d, %d, %d, %d)\n",
                                             File_extensions[i].c_str(),
                                             t_line - t_blank,
                                             t_blank,
@@ -79,5 +86,24 @@ void print_attr(Folder_Node* now)
                                             t_func_max,
                                             t_func_min,
                                             t_func_middle);
+        }
+        else
+        {
+            printf("    line: %d,\n", t_line - t_blank);
+            printf("    blank: %d,\n", t_blank);
+            printf("    comment: %d,\n", t_comment);
+            printf("    file: %d,\n", t_file_sum);
+            printf("    function_line: %d,\n", t_func_line);
+            printf("    function_cnt: %d,\n", t_func_cnt);
+            printf("    function_avg: %d,\n", t_func_avg);
+            printf("    function_max: %d,\n", t_func_max);
+            printf("    function_min: %d,\n", t_func_min);
+            printf("    function_middle: %d\n", t_func_middle);
+            printf("  }");
+            if (i < FILE_TYPE_NUM - 1) printf(",");
+            printf("\n");
+        }
     }
+    if (Structured)
+        printf("}\n");
 }
